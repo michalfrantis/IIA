@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Auditní trenažér IIA</title>
+<meta name="description" content="Příprava na zkoušky interního auditu podle Globálních standardů IIA 2024 — otázky, opakování chyb a sledování pokroku.">
+<meta name="theme-color" content="#0B6E6E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<!--APP-->
+<header class="topbar">
+  <div class="brandmark" aria-hidden="true">IA</div>
+  <div class="lvl">
+    <div class="lvl-row">
+      <span class="lvl-name" id="lvlName">Kandidát</span>
+      <span class="lvl-xp" id="lvlXp">0 XP</span>
+    </div>
+    <div class="xpbar"><i id="xpFill" style="width:0%"></i></div>
+  </div>
+  <div class="flame" id="streak" title="Denní série">0 dní</div>
+</header>
+
+<main>
+  <!-- DOMŮ -->
+  <section class="screen wrap" id="s-home">
+    <div class="today">
+      <div class="ring">
+        <svg width="84" height="84" viewBox="0 0 84 84" aria-hidden="true">
+          <circle cx="42" cy="42" r="36" fill="none" stroke="var(--surface-3)" stroke-width="8"></circle>
+          <circle id="ringFill" cx="42" cy="42" r="36" fill="none" stroke="var(--accent)" stroke-width="8"
+                  stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="226"></circle>
+        </svg>
+        <div class="val"><div><b id="ringNum">0</b><span id="ringDen">/10</span></div></div>
+      </div>
+      <div class="today-txt">
+        <h2 id="todayTitle">Dnešní dávka</h2>
+        <p id="todayText">Deset otázek denně a standardy se usadí.</p>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="modes">
+        <button class="mode primary" data-go="daily">
+          <span class="m-ico">▶</span>
+          <span class="m-txt"><span class="m-name">Denní dávka</span><span class="m-sub">Mix podle toho, co je na řadě</span></span>
+          <span class="m-count" id="cDaily"></span>
+        </button>
+        <button class="mode" data-go="mistakes">
+          <span class="m-ico">↺</span>
+          <span class="m-txt"><span class="m-name">Opakovat chyby</span><span class="m-sub">Jen to, co jsi nevěděl</span></span>
+          <span class="m-count" id="cMist"></span>
+        </button>
+        <button class="mode" data-go="open">
+          <span class="m-ico">✎</span>
+          <span class="m-txt"><span class="m-name">Otevřené kartičky</span><span class="m-sub">Vysvětli vlastními slovy, pak se oznámkuj</span></span>
+          <span class="m-count" id="cOpen"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="sec" id="weakSec" hidden>
+      <div class="sec-h"><h2>Nejslabší místa</h2><span class="hint">zvládnutí</span></div>
+      <div class="weak" id="weakList"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Celkem</h2><span class="hint" id="totSeen"></span></div>
+      <div class="tiles">
+        <div class="tile ok"><b id="tOk">0</b><span>✅ správně</span></div>
+        <div class="tile warn"><b id="tPart">0</b><span>⚠️ částečně</span></div>
+        <div class="tile bad"><b id="tBad">0</b><span>❌ doplnit</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRÉNINK -->
+  <section class="screen wrap" id="s-train" hidden>
+    <p class="eyebrow">Vyber oblast</p>
+    <div class="sec-h"><h2>15 principů, 5 domén</h2><span class="hint">zvládnutí</span></div>
+    <button class="mode" data-go="all" style="margin-bottom:6px">
+      <span class="m-ico">∑</span>
+      <span class="m-txt"><span class="m-name">Napříč vším</span><span class="m-sub">Náhodný mix ze všech oblastí</span></span>
+      <span class="m-count" id="cAll"></span>
+    </button>
+    <div id="areaList"></div>
+  </section>
+
+  <!-- POKROK -->
+  <section class="screen wrap" id="s-prog" hidden>
+    <p class="eyebrow">Pokrok</p>
+    <div class="sec-h"><h2>Zvládnutí domén</h2><span class="hint">podle opakování</span></div>
+    <div class="areas" id="domProg"></div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Aktivita</h2><span class="hint">posledních 14 dní</span></div>
+      <div class="weak" id="actList"></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><h2>Data</h2></div>
+      <div class="rowbtns">
+        <button class="btn ghost" id="btnExport">Zálohovat</button>
+        <button class="btn ghost" id="btnImport">Obnovit ze zálohy</button>
+      </div>
+      <button class="btn ghost" id="btnTheme">Přepnout motiv</button>
+      <button class="btn ghost" id="btnReset" style="color:var(--bad)">Vymazat pokrok</button>
+      <input type="file" id="fileIn" accept="application/json" hidden>
+      <p class="note" id="aboutNote"></p>
+    </div>
+  </section>
+
+  <!-- ODZNAKY -->
+  <section class="screen wrap" id="s-badges" hidden>
+    <p class="eyebrow">Sbírka</p>
+    <div class="sec-h"><h2>Odznaky</h2><span class="hint" id="badgeCount"></span></div>
+    <div class="badges" id="badgeList"></div>
+  </section>
+
+  <!-- KVÍZ -->
+  <section class="screen wrap" id="s-quiz" hidden>
+    <div class="qhead">
+      <button class="x" id="quizExit" aria-label="Ukončit test">✕</button>
+      <div class="qprog"><i id="qFill" style="width:0%"></i></div>
+      <span class="qcount" id="qCount">1/10</span>
+      <span class="combo" id="qCombo" hidden></span>
+    </div>
+    <div id="quizBody"></div>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button class="tab" data-tab="home" aria-current="true">
+    <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Domů</button>
+  <button class="tab" data-tab="train">
+    <svg viewBox="0 0 24 24"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h10"/></svg>Trénink</button>
+  <button class="tab" data-tab="prog">
+    <svg viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>Pokrok</button>
+  <button class="tab" data-tab="badges">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>Odznaky</button>
+</nav>
+<!--/APP-->
+
+<script src="assets/questions.js"></script>
+<script src="assets/app.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  });
+}
+</script>
+</body>
+</html>

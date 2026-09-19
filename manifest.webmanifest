@@ -1,0 +1,17 @@
+{
+  "name": "Auditní trenažér IIA",
+  "short_name": "Trenažér IIA",
+  "description": "Příprava na zkoušky interního auditu podle Globálních standardů IIA 2024.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D1517",
+  "theme_color": "#0B6E6E",
+  "lang": "cs",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
