@@ -2,7 +2,10 @@
 const IIA_UI = {
   cs: {
     lang_other: "EN", lang_switch: "Přepnout na angličtinu",
-    tab_home: "Domů", tab_train: "Trénink", tab_prog: "Pokrok", tab_badges: "Odznaky",
+    tab_home: "Domů", tab_train: "Trénink", tab_prog: "Pokrok", tab_badges: "Odznaky", tab_set: "Nastavení",
+    eyebrow_set: "Nastavení", h_set: "Aplikace a data",
+    h_lang: "Jazyk", h_look: "Vzhled", th_sys: "Systém", th_light: "Světlý", th_dark: "Tmavý",
+    h_goal: "Denní cíl", goal_note: "Kolik otázek denně drží sérii. Míň než deset zvládneš cestou do práce.",
 
     today_title: "Dnešní dávka", today_done: "Denní cíl splněn",
     today_text: "{0} otázek do splnění denního cíle.",
@@ -77,7 +80,10 @@ const IIA_UI = {
 
   en: {
     lang_other: "CS", lang_switch: "Switch to Czech",
-    tab_home: "Home", tab_train: "Practice", tab_prog: "Progress", tab_badges: "Badges",
+    tab_home: "Home", tab_train: "Practice", tab_prog: "Progress", tab_badges: "Badges", tab_set: "Settings",
+    eyebrow_set: "Settings", h_set: "App and data",
+    h_lang: "Language", h_look: "Appearance", th_sys: "System", th_light: "Light", th_dark: "Dark",
+    h_goal: "Daily goal", goal_note: "How many questions a day keep the streak alive. Under ten fits into a commute.",
 
     today_title: "Today's set", today_done: "Daily goal met",
     today_text: "{0} questions to hit today's goal.",

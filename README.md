@@ -20,7 +20,9 @@ Obě verze sdílejí id otázek, takže **přepnutím jazyka o pokrok nepřijde�
 - **Gamifikace** — XP podle obtížnosti, kombo za sérii správných, 8 úrovní od Kandidáta po Mistra standardů,
   denní cíl, denní série a 14 odznaků.
 - **Pokrok** — zvládnutí po principech i doménách, nejslabší místa, aktivita za 14 dní.
-- **Připomínka** — v záložce *Pokrok* si nastavíš interval (1 / 2 / 3 dny / týden) a čas a jedním tlačítkem
+- **Nastavení** — samostatná záložka: jazyk, vzhled (systém / světlý / tmavý),
+  denní cíl (5 / 10 / 15 / 20 otázek), připomínka a správa dat.
+- **Připomínka** — v záložce *Nastavení* si nastavíš interval (1 / 2 / 3 dny / týden) a čas a jedním tlačítkem
   založíš opakující se událost v Google Kalendáři, nebo stáhneš `.ics` pro Apple Kalendář.
   Pozor: kalendář nepozná, jestli jsi cvičil — zvoní podle plánu, ne podle nečinnosti.
 - **Data** — jen `localStorage`, plus záloha a obnova do JSON. Žádný účet, žádný server.

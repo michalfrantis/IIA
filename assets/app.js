@@ -464,7 +464,17 @@
         '<span class="v" style="color:var(--muted)">' + n + '</span></div>';
     }
     el("actList").innerHTML = rows || '<div class="empty">' + esc(T("no_activity")) + '</div>';
+  }
+  function paintSettings() {
+    segSet("segLang", "lang", LANG);
+    segSet("segTheme", "theme", S.theme || "");
+    segSet("segGoal", "goal", String(S.goal || 10));
     el("aboutNote").innerHTML = T("about", esc(D.meta.standard), QS.length);
+  }
+  function segSet(id, attr, val) {
+    [].forEach.call(el(id).children, function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-" + attr) === val));
+    });
   }
   function fmtDate(d) {
     try { return d.toLocaleDateString(LANG === "en" ? "en-GB" : "cs-CZ", { day: "numeric", month: "short" }); }
@@ -489,11 +499,11 @@
     }).join("");
   }
   function paintAll() {
-    paintStatic(); paintHeader(); paintHome(); paintTrain(); paintProg(); paintRemind(); paintBadges();
+    paintStatic(); paintHeader(); paintHome(); paintTrain(); paintProg(); paintRemind(); paintBadges(); paintSettings();
   }
 
   /* ---------- navigace ---------- */
-  var SCREENS = { home: "s-home", train: "s-train", prog: "s-prog", badges: "s-badges", quiz: "s-quiz" };
+  var SCREENS = { home: "s-home", train: "s-train", prog: "s-prog", badges: "s-badges", set: "s-set", quiz: "s-quiz" };
   function show(name) {
     for (var k in SCREENS) el(SCREENS[k]).hidden = (k !== name);
     [].forEach.call(document.querySelectorAll(".tab"), function (t) {
@@ -533,12 +543,28 @@
     if (Q && Q.i < Q.queue.length && !confirm(T("a_exit"))) return;
     show("home");
   });
-  el("btnTheme").addEventListener("click", function () {
-    var cur = document.documentElement.getAttribute("data-theme");
-    var next = cur === "dark" ? "light" : cur === "light" ? "" : "dark";
-    if (next) document.documentElement.setAttribute("data-theme", next);
+  function applyTheme(t) {
+    if (t) document.documentElement.setAttribute("data-theme", t);
     else document.documentElement.removeAttribute("data-theme");
-    S.theme = next; save();
+  }
+  [].forEach.call(el("segTheme").children, function (b) {
+    b.addEventListener("click", function () {
+      S.theme = b.getAttribute("data-theme");
+      applyTheme(S.theme); save(); segSet("segTheme", "theme", S.theme);
+    });
+  });
+  [].forEach.call(el("segGoal").children, function (b) {
+    b.addEventListener("click", function () {
+      S.goal = +b.getAttribute("data-goal");
+      save(); segSet("segGoal", "goal", String(S.goal)); paintHome();
+    });
+  });
+  [].forEach.call(el("segLang").children, function (b) {
+    b.addEventListener("click", function () {
+      var l = b.getAttribute("data-lang");
+      if (l === LANG) return;
+      S.lang = l; setLang(l); save(); paintAll();
+    });
   });
   el("btnReset").addEventListener("click", function () {
     if (!confirm(T("a_reset"))) return;

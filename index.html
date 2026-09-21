@@ -105,6 +105,48 @@
       <div class="weak" id="actList"></div>
     </div>
 
+  </section>
+
+  <!-- ODZNAKY -->
+  <section class="screen wrap" id="s-badges" hidden>
+    <p class="eyebrow" data-t="eyebrow_badges"></p>
+    <div class="sec-h"><h2 data-t="h_badges"></h2><span class="hint" id="badgeCount"></span></div>
+    <div class="badges" id="badgeList"></div>
+  </section>
+
+  <!-- NASTAVENÍ -->
+  <section class="screen wrap" id="s-set" hidden>
+    <p class="eyebrow" data-t="eyebrow_set"></p>
+    <div class="sec-h"><h2 data-t="h_set"></h2></div>
+
+    <div class="field">
+      <span class="flabel" data-t="h_lang"></span>
+      <div class="seg" id="segLang">
+        <button data-lang="cs">Čeština</button>
+        <button data-lang="en">English</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="flabel" data-t="h_look"></span>
+      <div class="seg" id="segTheme">
+        <button data-theme="" data-t="th_sys"></button>
+        <button data-theme="light" data-t="th_light"></button>
+        <button data-theme="dark" data-t="th_dark"></button>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="flabel" data-t="h_goal"></span>
+      <div class="seg" id="segGoal">
+        <button data-goal="5">5</button>
+        <button data-goal="10">10</button>
+        <button data-goal="15">15</button>
+        <button data-goal="20">20</button>
+      </div>
+      <p class="note" data-t="goal_note" style="margin-top:8px"></p>
+    </div>
+
     <div class="sec">
       <div class="sec-h"><h2 data-t="h_remind"></h2></div>
       <div class="remind">
@@ -131,18 +173,10 @@
         <button class="btn ghost" id="btnExport" data-t="b_export"></button>
         <button class="btn ghost" id="btnImport" data-t="b_import"></button>
       </div>
-      <button class="btn ghost" id="btnTheme" data-t="b_theme"></button>
       <button class="btn ghost" id="btnReset" style="color:var(--bad)" data-t="b_reset"></button>
       <input type="file" id="fileIn" accept="application/json" hidden>
-      <p class="note" id="aboutNote"></p>
     </div>
-  </section>
-
-  <!-- ODZNAKY -->
-  <section class="screen wrap" id="s-badges" hidden>
-    <p class="eyebrow" data-t="eyebrow_badges"></p>
-    <div class="sec-h"><h2 data-t="h_badges"></h2><span class="hint" id="badgeCount"></span></div>
-    <div class="badges" id="badgeList"></div>
+    <p class="note" id="aboutNote"></p>
   </section>
 
   <!-- KVÍZ -->
@@ -166,6 +200,8 @@
     <svg viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg><span data-t="tab_prog"></span></button>
   <button class="tab" data-tab="badges">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg><span data-t="tab_badges"></span></button>
+  <button class="tab" data-tab="set">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 14.6a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5v.1a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H2a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H8a1.6 1.6 0 0 0 1-1.5V2a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V8a1.6 1.6 0 0 0 1.5 1h.1a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg><span data-t="tab_set"></span></button>
 </nav>
 <!--/APP-->
 
