@@ -13,6 +13,9 @@ Otevře se na mobilu, funguje offline, pokrok zůstává v telefonu.
 - **Gamifikace** — XP podle obtížnosti, kombo za sérii správných, 8 úrovní od Kandidáta po Mistra standardů,
   denní cíl, denní série a 14 odznaků.
 - **Pokrok** — zvládnutí po principech i doménách, nejslabší místa, aktivita za 14 dní.
+- **Připomínka** — v záložce *Pokrok* si nastavíš interval (1 / 2 / 3 dny / týden) a čas a jedním tlačítkem
+  založíš opakující se událost v Google Kalendáři, nebo stáhneš `.ics` pro Apple Kalendář.
+  Pozor: kalendář nepozná, jestli jsi cvičil — zvoní podle plánu, ne podle nečinnosti.
 - **Data** — jen `localStorage`, plus záloha a obnova do JSON. Žádný účet, žádný server.
 
 ## Jak to spustit

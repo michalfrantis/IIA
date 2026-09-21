@@ -225,6 +225,17 @@ main{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch}
 .tab svg{width:21px; height:21px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
 .tab[aria-current="true"]{color:var(--accent); font-weight:600}
 
+/* ---- Připomínka ---- */
+.remind{display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:10px}
+.remind label{display:grid; gap:5px; font-family:var(--f-mono); font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted)}
+.remind select,.remind input{
+  font:inherit; font-size:15px; color:var(--ink); background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--r-s); padding:11px 10px; min-height:46px; width:100%;
+  appearance:none; -webkit-appearance:none;
+}
+.remind input[type="time"]{font-family:var(--f-mono); font-variant-numeric:tabular-nums}
+
 /* ---- Drobnosti ---- */
 .rowbtns{display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:10px}
 .rowbtns .btn{margin-top:0}

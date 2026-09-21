@@ -105,6 +105,26 @@
     </div>
 
     <div class="sec">
+      <div class="sec-h"><h2>Připomínka</h2></div>
+      <div class="remind">
+        <label for="remFreq">Jak často
+          <select id="remFreq">
+            <option value="1">Každý den</option>
+            <option value="2">Každé 2 dny</option>
+            <option value="3" selected>Každé 3 dny</option>
+            <option value="7">Jednou týdně</option>
+          </select>
+        </label>
+        <label for="remTime">V kolik
+          <input type="time" id="remTime" value="19:00">
+        </label>
+      </div>
+      <button class="btn" id="btnGCal">Přidat do Google Kalendáře</button>
+      <button class="btn ghost" id="btnIcs">Stáhnout .ics (Apple Kalendář)</button>
+      <p class="note" id="remNote"></p>
+    </div>
+
+    <div class="sec">
       <div class="sec-h"><h2>Data</h2></div>
       <div class="rowbtns">
         <button class="btn ghost" id="btnExport">Zálohovat</button>

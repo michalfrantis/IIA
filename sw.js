@@ -1,5 +1,5 @@
 /* Offline cache — verzi zvyš při každé změně obsahu. */
-var CACHE = "iia-trenazer-v1";
+var CACHE = "iia-trenazer-v2";
 var FILES = [
   "./", "./index.html", "./assets/style.css", "./assets/app.js", "./assets/questions.js",
   "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"

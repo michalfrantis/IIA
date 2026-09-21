@@ -39,7 +39,8 @@
   var S;
   function blank() {
     return { xp: 0, goal: 10, streak: 0, lastDay: "", daily: { d: "", n: 0 },
-             tot: { ok: 0, part: 0, bad: 0 }, openDone: 0, q: {}, badges: [], hist: {}, theme: "" };
+             tot: { ok: 0, part: 0, bad: 0 }, openDone: 0, q: {}, badges: [], hist: {}, theme: "",
+             remind: { freq: 3, time: "19:00" } };
   }
   function load() {
     try {
@@ -411,7 +412,75 @@
       return '<div class="badge' + (on ? " on" : "") + '"><div class="bi">' + b.i + '</div><b>' + esc(b.n) + '</b><span>' + esc(b.d) + '</span></div>';
     }).join("");
   }
-  function paintAll() { paintHeader(); paintHome(); paintTrain(); paintProg(); paintBadges(); }
+  function paintAll() { paintHeader(); paintHome(); paintTrain(); paintProg(); paintBadges(); paintRemind(); }
+
+  /* ---------- připomínka do kalendáře ---------- */
+  var APP_URL = "https://michalfrantis.github.io/IIA/";
+  var EV_TITLE = "Trenažér IIA — 10 otázek";
+  var EV_DESC = "Denní dávka z Globálních standardů IIA 2024: " + APP_URL +
+    "\nKdyž nemáš čas, dej aspoň režim Opakovat chyby — je kratší a míří na to, co ti nesedí.";
+
+  function nextRun() {
+    var t = (S.remind.time || "19:00").split(":");
+    var d = new Date();
+    d.setHours(+t[0] || 19, +t[1] || 0, 0, 0);
+    if (d.getTime() <= Date.now()) d.setDate(d.getDate() + 1);   // dnešní čas už minul
+    return d;
+  }
+  function stamp(d, utc) {
+    var f = utc
+      ? [d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes()]
+      : [d.getFullYear(), d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes()];
+    return f[0] + pad(f[1]) + pad(f[2]) + "T" + pad(f[3]) + pad(f[4]) + "00" + (utc ? "Z" : "");
+  }
+  function icsEscape(s) { return String(s).replace(/([,;\\])/g, "\\$1").replace(/\n/g, "\\n"); }
+  function fold(line) {
+    // RFC 5545: řádky nejvýš 75 oktetů, pokračování začíná mezerou
+    if (line.length <= 74) return line;
+    var out = line.slice(0, 74), rest = line.slice(74);
+    while (rest.length > 73) { out += "\r\n " + rest.slice(0, 73); rest = rest.slice(73); }
+    return out + "\r\n " + rest;
+  }
+  function buildIcs() {
+    var start = nextRun(), end = new Date(start.getTime() + 20 * 6e4);
+    var lines = [
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Auditni trenazer IIA//CS", "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH", "BEGIN:VEVENT",
+      "UID:" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2) + "@iia-trenazer",
+      "DTSTAMP:" + stamp(new Date(), true),
+      "DTSTART:" + stamp(start, false),          // plovoucí čas = místní zóna telefonu
+      "DTEND:" + stamp(end, false),
+      "RRULE:FREQ=DAILY;INTERVAL=" + (S.remind.freq || 3),
+      "SUMMARY:" + icsEscape(EV_TITLE),
+      "DESCRIPTION:" + icsEscape(EV_DESC),
+      "URL:" + APP_URL,
+      "TRANSP:TRANSPARENT",
+      "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsEscape(EV_TITLE), "TRIGGER:PT0S", "END:VALARM",
+      "END:VEVENT", "END:VCALENDAR"
+    ];
+    return lines.map(fold).join("\r\n") + "\r\n";
+  }
+  function gcalUrl() {
+    var start = nextRun(), end = new Date(start.getTime() + 20 * 6e4), tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    var p = ["action=TEMPLATE",
+      "text=" + encodeURIComponent(EV_TITLE),
+      "dates=" + stamp(start, false) + "/" + stamp(end, false),
+      "details=" + encodeURIComponent(EV_DESC),
+      "recur=" + encodeURIComponent("RRULE:FREQ=DAILY;INTERVAL=" + (S.remind.freq || 3)),
+      "crm=AVAILABLE"];
+    if (tz) p.push("ctz=" + encodeURIComponent(tz));
+    return "https://calendar.google.com/calendar/render?" + p.join("&");
+  }
+  function paintRemind() {
+    el("remFreq").value = String(S.remind.freq || 3);
+    el("remTime").value = S.remind.time || "19:00";
+    var d = nextRun();
+    var every = { 1: "každý den", 2: "každé 2 dny", 3: "každé 3 dny", 7: "jednou týdně" }[S.remind.freq] || "každé 3 dny";
+    el("remNote").textContent = "První zvonění " + pad(d.getDate()) + ". " + pad(d.getMonth() + 1) + ". v " +
+      pad(d.getHours()) + ":" + pad(d.getMinutes()) + ", pak " + every +
+      ". Kalendář nepozná, jestli jsi cvičil — zvoní podle plánu, ne podle nečinnosti.";
+  }
 
   /* ---------- navigace ---------- */
   var SCREENS = { home: "s-home", train: "s-train", prog: "s-prog", badges: "s-badges", quiz: "s-quiz" };
@@ -467,6 +536,17 @@
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   });
   el("btnImport").addEventListener("click", function () { el("fileIn").click(); });
+  el("remFreq").addEventListener("change", function () { S.remind.freq = +this.value; save(); paintRemind(); });
+  el("remTime").addEventListener("change", function () { S.remind.time = this.value || "19:00"; save(); paintRemind(); });
+  el("btnGCal").addEventListener("click", function () { window.open(gcalUrl(), "_blank", "noopener"); });
+  el("btnIcs").addEventListener("click", function () {
+    var blob = new Blob([buildIcs()], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = "pripominka-iia.ics"; a.rel = "noopener";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+  });
   el("fileIn").addEventListener("change", function (e) {
     var f = e.target.files[0]; if (!f) return;
     var r = new FileReader();
