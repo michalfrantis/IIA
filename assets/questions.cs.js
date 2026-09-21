@@ -2,7 +2,7 @@
    Studijní parafráze, nikoli oficiální text IIA.
    t: "mcq" = jedna správná z možností | "open" = otevřená kartička se sebehodnocením
    d: obtížnost 1 (koncept) .. 3 (aplikace / edge case) */
-const IIA_DATA = {
+const IIA_DATA_CS = {
   meta: { version: "1.0", standard: "Globální standardy IIA 2024", effective: "9. 1. 2025" },
   domains: [
     { id: "D0", num: "0",  name: "IPPF a rámec" },
@@ -708,4 +708,4 @@ const IIA_DATA = {
     m:"• Ujištění má hodnotu jen tehdy, když příjemce věří, jak vzniklo.\n• QAIP je doklad: dohled nad zakázkami (12.3), průběžné monitorování a sebehodnocení (12.1), externí hodnocení min. 1× za 5 let (8.4).\n• Bez doloženého souladu nelze tvrdit conformance (4.1) — a prohlášení bez důkazu je samo rizikem důvěryhodnosti.\n• Měření výkonu (12.2) dává orgánům měřitelný obraz o tom, zda funkce plní účel z Domény I.\n• Smyčka se uzavírá plánem zlepšení a reportingem orgánům (8.1, 8.3)." }
   ]
 };
-if (typeof module !== "undefined") { module.exports = IIA_DATA; }
+if (typeof module !== "undefined") { module.exports = IIA_DATA_CS; }

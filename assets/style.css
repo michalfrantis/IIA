@@ -65,11 +65,18 @@ button{font:inherit; color:inherit; cursor:pointer}
 .lvl-xp{font-family:var(--f-mono); font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; margin-left:auto; white-space:nowrap}
 .xpbar{height:5px; border-radius:99px; background:var(--surface-3); margin-top:5px; overflow:hidden}
 .xpbar>i{display:block; height:100%; background:var(--gold); border-radius:99px; transition:width .5s ease}
+.langbtn{
+  flex:0 0 auto; font-family:var(--f-mono); font-size:12px; font-weight:600; letter-spacing:.04em;
+  padding:6px 9px; border-radius:99px; background:var(--accent-soft); color:var(--accent);
+  border:1px solid transparent; min-width:38px;
+}
 .flame{
   font-family:var(--f-mono); font-size:12px; font-weight:600; white-space:nowrap;
   padding:6px 9px; border-radius:99px; background:var(--warn-soft); color:var(--warn);
   font-variant-numeric:tabular-nums;
 }
+.topbar{gap:8px}
+.tab span{display:block}
 
 /* ---- Obsah ---- */
 main{flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch}

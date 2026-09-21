@@ -1,7 +1,7 @@
 /* Offline cache — verzi zvyš při každé změně obsahu. */
-var CACHE = "iia-trenazer-v2";
+var CACHE = "iia-trenazer-v3";
 var FILES = [
-  "./", "./index.html", "./assets/style.css", "./assets/app.js", "./assets/questions.js",
+  "./", "./index.html", "./assets/style.css", "./assets/app.js", "./assets/i18n.js", "./assets/questions.cs.js", "./assets/questions.en.js",
   "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png"
 ];
 self.addEventListener("install", function (e) {
